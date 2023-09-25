@@ -1843,7 +1843,7 @@ public:
 	FxSequence(const FScriptPosition &pos) : FxExpression(EFX_Sequence, pos) {}
 	FxExpression *Resolve(FCompileContext&);
 	ExpEmit Emit(VMFunctionBuilder *build);
-	void Add(FxExpression *expr) { if (expr != NULL) Expressions.Push(expr); expr->NeedResult = false; }
+	void Add(FxExpression* expr) { if (expr != NULL) { Expressions.Push(expr); expr->NeedResult = false; } }
 	VMFunction *GetDirectFunction(PFunction *func, const VersionInfo &ver);
 	bool CheckReturn();
 };
