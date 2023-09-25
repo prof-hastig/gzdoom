@@ -716,7 +716,7 @@ public:
 
 #include "t_fs.h"
 
-void script_error(const char *s, ...) GCCPRINTF(1,2);
+[[noreturn]] void script_error(const char *s, ...) GCCPRINTF(1,2);
 void FS_EmulateCmd(FLevelLocals *l, char * string);
 
 #endif

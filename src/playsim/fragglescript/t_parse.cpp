@@ -726,7 +726,7 @@ void FParser::ErrorMessage(FString msg)
 //
 //==========================================================================
 
-void script_error(const char *s, ...)
+[[noreturn]] void script_error(const char *s, ...)
 {
 	FString composed;
 	va_list args;
