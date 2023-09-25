@@ -2092,9 +2092,8 @@ void DAutomap::drawSubsectors()
 			seczb = floorplane->ZatPoint(secx, secy);
 			seczt = sec->ceilingplane.ZatPoint(secx, secy);
 
-			for (unsigned int i = 0; i < sec->e->XFloor.ffloors.Size(); ++i)
+			for (auto rover : sec->e->XFloor.ffloors)
 			{
-				F3DFloor *rover = sec->e->XFloor.ffloors[i];
 				if (!(rover->flags & FF_EXISTS)) continue;
 				if (rover->flags & (FF_FOG | FF_THISINSIDE)) continue;
 				if (!(rover->flags & FF_RENDERPLANES)) continue;
@@ -2175,9 +2174,9 @@ void DAutomap::drawSubsectors()
 				curPoly = &polygon.back();
 				curPoly->resize(points.Size());
 
-				for (unsigned i = 0; i < points.Size(); i++)
+				for (unsigned ii = 0; ii < points.Size(); ii++)
 				{
-					(*curPoly)[i] = { points[i].X, points[i].Y };
+					(*curPoly)[ii] = { points[ii].X, points[ii].Y };
 				}
 				indices = mapbox::earcut(polygon);
 			}
@@ -2969,13 +2968,13 @@ void DAutomap::drawThings ()
 						const size_t spriteIndex = sprite.spriteframes + (show > 1 ? t->frame : 0);
 
 						frame = &SpriteFrames[spriteIndex];
-						DAngle angle = DAngle::fromDeg(270. + 22.5) - t->InterpolatedAngles(r_viewpoint.TicFrac).Yaw;
-						if (frame->Texture[0] != frame->Texture[1]) angle += DAngle::fromDeg(180. / 16);
+						DAngle angle2 = DAngle::fromDeg(270. + 22.5) - t->InterpolatedAngles(r_viewpoint.TicFrac).Yaw;
+						if (frame->Texture[0] != frame->Texture[1]) angle2 += DAngle::fromDeg(180. / 16);
 						if (am_rotate == 1 || (am_rotate == 2 && viewactive))
 						{
-							angle += players[consoleplayer].camera->InterpolatedAngles(r_viewpoint.TicFrac).Yaw - DAngle::fromDeg(90.);
+							angle2 += players[consoleplayer].camera->InterpolatedAngles(r_viewpoint.TicFrac).Yaw - DAngle::fromDeg(90.);
 						}
-						rotation = int((angle.Normalized360() * (16. / 360.)).Degrees());
+						rotation = int((angle2.Normalized360() * (16. / 360.)).Degrees());
 
 						const FTextureID textureID = frame->Texture[show > 2 ? rotation : 0];
 						texture = TexMan.GetGameTexture(textureID, true);
@@ -3198,8 +3197,8 @@ void DAutomap::drawAuthorMarkers ()
 				tex = TexMan.GetGameTexture(picnum);
 			}
 		}
-		auto it = Level->GetActorIterator(mark->args[0]);
-		AActor *marked = mark->args[0] == 0 ? mark : it.Next();
+		auto it2 = Level->GetActorIterator(mark->args[0]);
+		AActor *marked = mark->args[0] == 0 ? mark : it2.Next();
 
 		double xscale = mark->Scale.X;
 		double yscale = mark->Scale.Y;
@@ -3217,7 +3216,7 @@ void DAutomap::drawAuthorMarkers ()
 				DrawMarker (tex, marked->X(), marked->Y(), 0, flip, xscale, yscale, mark->Translation,
 					mark->Alpha, mark->fillcolor, mark->RenderStyle);
 			}
-			marked = mark->args[0] != 0 ? it.Next() : nullptr;
+			marked = mark->args[0] != 0 ? it2.Next() : nullptr;
 		}
 	}
 }

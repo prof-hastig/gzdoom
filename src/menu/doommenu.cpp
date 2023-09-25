@@ -1202,8 +1202,8 @@ void M_StartupSkillMenu(FNewGameStartup *gs)
 				// Get lowest y coordinate of any static item in the menu
 				for(unsigned i = 0; i < ld->mItems.Size(); i++)
 				{
-					int y = (int)ld->mItems[i]->GetY();
-					if (y < topy) topy = y;
+					int yy = (int)ld->mItems[i]->GetY();
+					if (yy < topy) topy = yy;
 				}
 
 				for (unsigned i = 0; i < MenuSkills.Size(); i++)
